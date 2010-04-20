@@ -1,0 +1,89 @@
+= selector-specificity
+Mean selector specificity of a CSS style sheet
+
+== About
+A ruby command line tool that determines the mean selector specificity of a style sheet with a Ragel-generated CSS3-parser.
+
+See article "CSS selector specificity and complexity in development" on XING's {dev blog}[http://devblog.xing.com]. 
+
+== Folders and Files
+*  /css # example folder for CSS files
+*  /generated # generated Ruby app parse.rb
+*  /includes # source include files
+*  /plot # example: output.dot files for Graphviz
+*  parse.rl # source code to be compiled with Ragel
+
+== Usage
+===Run the ruby parser and ask for help
+Note that the file parser.rb is in the folder /generated 
+    ruby parse.rb -h
+See 'Addendum' on how to generate the parser.rb from Ragel source parser.rl
+
+=== Analyse the selectors from console input
+    ruby parse.rb -i
+<em>type in console:</em>  
+    * html body.intro {}
+
+=== Analyse the selectors of a local css file, and output results to stdout
+    ruby parse.rb -f /css/main.css
+
+=== Analyse the selectors of a hosted css file and output results into a file
+    ruby parse.rb -x https://example.org/css/main.css > out.txt
+
+== Addendum
+=== Generate the ruby app with Ragel
+Note: there already should be a ruby script in /generated, so proceed with step: Run the ruby parser app
+
+* Read about {Ragel}[http://www.complang.org/ragel/ragel-guide-6.6.pdf]
+* Install {Ragel state machine compiler}[http://www.complang.org/ragel/] or via MacPorts: 
+    sudo port install ragel
+* Compile the ruby app:
+    ragel -R parse.rl generated/parse.rb
+
+=== Output for Graphviz graph plotting
+For example, plot a graph for the machine "pseudo_element"
+
+* {Graphviz}[http://www.graphviz.org/] , {Graphviz Mac Port}[http://www.pixelglow.com/graphviz/]
+    ragel parse.rl -M "pseudo_element" -p -V > pseudo.out
+    
+* in Graphviz, open pseudo.out for Graph visualization of this machine
+
+=== Writing a CSS parser
+Calculating the specificity of selectors means that the reading application has to understand the syntax of CSS rules. This syntax is formally defined in the {CSS 2.1 grammar}[http://www.w3.org/TR/CSS2/grammar.html]. For CSS3 that is used widely in current style sheets, the grammar is spread over the {modules of the CSS3 draft}[http://www.w3.org/Style/CSS/current-work], so a recombination of the modular grammar was required.
+
+<em>CSS 3 Standard: grammar production for pseudo-elements and pseudo-classes</em>
+    pseudo
+        /* '::' starts a pseudo-element, ':' a pseudo-class */
+        /* Exceptions: :first-line, :first-letter, :before and :after. */
+        : ':' ':'? [ IDENT | functional_pseudo ]
+        ;
+
+The {Ragel state machine compiler}[http://www.complang.org/ragel/] by Adrian Thurston was used as a parser generator. Ragel constructs a state machine representation of a regular language. It can output this machine to C, C++, Objective-C, D, Java or Ruby code. Ragel can output the state machine or parts of it to the graph plotting tool {Graphviz}[http://www.graphviz.org/].
+
+Since a finite state machine doesn't work well with ambiguous states that would require a lookahead into the input stream, the grammar had to be modified to be deterministic.
+
+<em>Grammar production for pseudo-element selectors with embedded action</em>
+    pseudo_element = ':' (':'?) ('first-line' | 'first-letter' | 'before' | 'after' ) % a_pseudo_element;
+
+Ragel comes with the ability of embedding actions for any state of the parser. Simple counters were set up as actions: When a selector pattern is matched, its specificity a, b, c is added to the overall specificity. 
+
+Stylesheets may have syntax errors. A panic error recovery strategy was chosen: the parser reads the input until the end of the next declaration block and then continues looking for selectors.
+
+A Ruby command line application was written as a frame for the generated parser. It can handle console input, file input or hosted file input via http. It cannot scan every CSS file for a given site automatically, though. The CSS files were therefore often downloaded and concatenated by hand for this paper.
+
+The application's output lists the selectors and their specificity and gives a summary of the mean specificity and other parameters like errors and @input and @media statements.
+In order to test the parser for syntactical correctness, a suite of the selector examples in the CSS3 selector module was parsed. In addition, media queries are correctly parsed, but the result is not differentiated for single media types. Note that import rules are currently not inspected by the parser.
+
+== Author
+
+{Ingo Chao}[http://github.com/ingochao]
+
+== Credits
+{Andree Wille}[http://github.com/dreewill], {Alexander Greim}[http://github.com/iltempo]
+
+You can find out more about our work on our {dev blog}[http://devblog.xing.com].
+
+Copyright (c) 2010 {XING AG}[http://www.xing.com/]
+
+Released under the MIT license. For full details see MIT-LICENSE included in this
+distribution.

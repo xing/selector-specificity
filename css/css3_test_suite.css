@@ -1,0 +1,214 @@
+
+@import "mystyle.css";
+@import url("mystyle.css");
+@import url("fineprint.css") print;
+@import url("bluish.css") projection, tv;
+@import url("narrow.css") handheld and (max-width: 400px);
+@import url(layout1.css) screen "Plain style";
+@import url(style4.css) "Four-columns and dark";
+@import "common1.css";
+@import "yellowfish.css" "Yellow Fish";
+
+@namespace toto "http://toto.example.org";
+@namespace "http://example.com/foo";
+
+*{} /**/
+/**{}*/
+E{}
+E[foo]{}
+E[foo="bar"]{}
+E[foo~="bar"]{}
+E[foo^="bar"]{}
+E[foo$="bar"]{}
+E[foo*="bar"]{}
+E[foo|="en"]{}
+E:root{}
+E:nth-child(n){}
+E:nth-last-child(n){}
+E:nth-of-type(n){}
+E:nth-last-of-type(n){}
+E:first-child{}
+E:last-child{}
+E:first-of-type{}
+E:last-of-type{}
+E:only-child{}
+E:only-of-type{}
+E:empty{}
+E:link{}
+E:visited{}
+E:active{}
+E:hover{}
+E:focus{}
+E:target{}
+E:lang(fr){}
+E:enabled{}
+E:disabled{}
+E:checked{}
+E::first-line{}
+E::first-letter{}
+E::before{}
+E::after{}
+E.warning{}
+E#myid{}
+E:not(s){}
+E F{}
+E > F{}
+E + F{}
+E ~ F{}
+
+foo|h1 { color: blue }
+foo|* { color: yellow }
+|h1 { color: red }
+*|h1 { color: green }
+h1 { color: green }
+
+*[hreflang|=en]{}
+[hreflang|=en]{}
+*.warning{}
+.warning{}
+*#myid{}
+#myid{}
+
+h1[title]{}
+span[class="example"]{}
+span[hello="Cleveland"][goodbye="Columbus"]{}
+a[rel~="copyright"] { ... }
+a[href="http://www.w3.org/"] { ... }
+a[hreflang=fr]{}
+a[hreflang|="en"]{}
+DIALOGUE[character=romeo]{}
+DIALOGUE[character=juliet]{}
+
+object[type^="image/"]{}
+a[href$=".html"]{}
+p[title*="hello"]{}
+
+[foo|att=val] { color: blue }
+[*|att] { color: yellow }
+[|att] { color: green }
+[att] { color: green }
+
+*.pastoral { color: green }
+.pastoral { color: green }
+H1.pastoral { color: green }
+p.pastoral.marine { color: green }
+
+h1#chapter1{}
+#chapter1{}
+*#z98y{}
+
+a.external:visited{}
+a:link{}
+a:visited{}
+a:hover{}
+a:active{}
+a:focus{}
+a:focus:hover{}
+p.note:target{}
+*:target { color : red }
+*:target::before { content : url(target.png) }
+html:lang(fr-be){}
+html:lang(de){}
+:lang(fr-be) > q{}
+:lang(de) > q{}
+tr:nth-child(2n+1){}
+tr:nth-child(odd){}
+tr:nth-child(even){}
+p:nth-child(4n+1) { color: navy; }
+
+img:nth-of-type(2n+1) { float: right; }
+img:nth-of-type(2n) { float: left; }
+body > h2:nth-of-type(n+2):nth-last-of-type(n+2){}
+body > h2:not(:first-of-type):not(:last-of-type){}
+
+div > p:first-child {}
+ol > li:last-child{}
+dl dt:first-of-type {}
+tr > td:last-of-type {}
+p:empty{}
+button:not([DISABLED]){}
+*:not(FOO){}
+html|*:not(:link):not(:visited){}
+*|*:not(*){}
+*|*:not(:hover){}
+p::first-line { text-transform: uppercase }
+p { color: red; font-size: 12pt }
+p::first-letter { color: green; font-size: 200% }
+p::first-line { color: blue }
+
+h1 em{}
+div * p{}
+div p *[href]{}
+body > p{}
+div ol>li p {}
+math + p{}
+h1.opener + h2{}
+h1 ~ pre{}
+
+ 
+* {}
+LI {} 
+UL LI {} 
+UL OL+LI {} 
+H1 + *[REL=up] {} 
+UL OL LI.red {} 
+LI.red.level {} 
+#x34y {} 
+#s12:not(FOO) {}
+
+
+@media print {
+  body { font-size: 12pt; }
+  h1 { font-size: 24pt; }
+}
+@media screen, print {
+  body { line-height: 1.2; }
+}
+
+@media screen and (min-width: 400px) and (max-width: 700px) { h{} b{} }
+@media handheld and (min-width: 20em), screen and (min-width: 20em) {h{} b{}}
+@media screen and (device-width: 800px) {h{}}
+@media all and (orientation:portrait) { h{} }
+@media screen and (device-aspect-ratio: 16/9) { h{} }
+@media all and (color) { h{} }
+@media all and (min-color: 1) { h{} }
+@media all and (color-index) { h{}}
+@media all and (min-color-index: 1) { h{} }
+@media all and (monochrome) { h{} }
+@media all and (min-monochrome: 1) { h{} }
+@media print and (min-resolution: 300dpi) { h{} }
+@media print and (min-resolution: 118dpcm) { h{} }
+@media tv and (scan: progressive) { h{} }
+@media handheld and (grid) and (max-width: 15em) { h{}  }
+@media handheld and (grid) and (device-max-height: 7em) { h{}  }
+@media handheld and (grid) and (device-max-height: 7em) { h{}  }
+
+@font-face {
+  font-family: Gentium;
+  src: url(http://site/fonts/Gentium.ttf);
+}
+
+@page {
+  size: auto;
+  margin: 10%;
+}
+
+@page {
+  size: 8.5in 11in;
+}
+@page {
+  size: A4 landscape;
+}
+
+  @media print and (width: 21cm) and (height: 29.7cm) {
+     @page {
+        margin: 3cm;
+     }
+  }
+
+
+  @media print and (width: 8.5in) and (height: 11in) {
+     @page {
+         margin: 1in;
+     }
+  }
