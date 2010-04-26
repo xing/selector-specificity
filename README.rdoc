@@ -4,7 +4,7 @@ Mean selector specificity of a CSS style sheet
 == About
 A ruby command line tool that determines the mean selector specificity of a style sheet with a Ragel-generated CSS3-parser.
 
-See article "CSS selector specificity and complexity in development" on XING's {dev blog}[http://devblog.xing.com]. 
+See article {CSS selector specificity and complexity in development}[http://devblog.xing.com/frontend/css-selector-specificity-and-complexity-in-development/] on XING's dev blog. 
 
 == Folders and Files
 *  /css # example folder for CSS files
